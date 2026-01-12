@@ -1,12 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript</title>
+  <script async src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 </head>
-<body>
-    <h1>Hola!</h1>
-    <script src="main.js"></script>
+
+<body class="bg-zinc-950 text-white">
+  <header class="bg-emerald-950">
+    <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+      <div class="flex lg:hidden">
+        <button type="button" command="show-modal" commandfor="mobile-menu"
+          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400">
+          <span class="sr-only">Open main menu</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+            aria-hidden="true" class="size-6">
+            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <el-popover-group class="hidden lg:flex lg:gap-x-12">
+        <a href="#" class="text-sm/6 font-semibold text-white">Inicio</a>
+        <a href="#" class="text-sm/6 font-semibold text-white">Productos</a>
+        <a href="#" class="text-sm/6 font-semibold text-white">Envios</a>
+        <a href="#" class="text-sm/6 font-semibold text-white">Nosotros</a>
+      </el-popover-group>
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a href="#" class="carrito">🛒</a>
+      </div>
+    </nav>
+    <el-dialog>
+      <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+        <div tabindex="0" class="fixed inset-0 focus:outline-none">
+          <el-dialog-panel
+            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-emerald-950 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10">
+            <div class="flex items-center justify-between">
+              
+              <button type="button" command="close" commandfor="mobile-menu"
+                class="-m-2.5 rounded-md p-2.5 text-gray-400">
+                <span class="sr-only">Close menu</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon"
+                  aria-hidden="true" class="size-6">
+                  <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <div class="mt-6 flow-root">
+              <div class="-my-6 divide-y divide-white/10">
+                <div class="space-y-2 py-6">
+                  <a href="#"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Inicio</a>
+                  <a href="#"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Productos</a>
+                  <a href="#"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Envios</a>
+                  <a href="#"
+                    class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Nosotros</a>
+                </div>
+                <div class="py-6">
+                  <a href="#" class="carrito">🛒</a>
+                </div>
+              </div>
+            </div>
+          </el-dialog-panel>
+        </div>
+      </dialog>
+    </el-dialog>
+  </header>
+  
+
+  
+  <section>
+    <h1 class="text-center text-3xl p-3 font-bold">Lo más vendido</h1>
+    <div class="flex-wrap flex justify-center gap-4 p-4">
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img class="rounded-lg h-55 w-55" src="./assets/ps5-img/resident-evil-village-ps5.webp" alt="">
+        <h2>Resident Evil Village</h2>
+        <p id="price">$39.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img class="rounded-lg h-55 w-55" src="./assets/ps5-img/resident-evil-requiem-ps5.webp" alt="">
+        <h2>Resident Evil Requiem</h2>
+        <p>$52.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img src="./assets/ps5-img/FC26-ps5.webp" alt="" class="rounded-lg h-55 w-55">
+        <h2>FC 26</h2>
+        <p>$69.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img src="./assets/ps5-img/CODBO7-ps5.webp" alt="" class="rounded-lg h-55 w-55">
+        <h2>Call Of Duty: Black Ops 7</h2>
+        <p>$59.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img src="./assets/ps5-img/battlefield-6-ps5.webp" alt="" class="rounded-lg h-55 w-55">
+        <h2>Battefield 6</h2>
+        <p>$69.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 rounded-md">
+        <img src="./assets/ps5-img/hollow-knight-silksong-ps5.webp" alt="" class="rounded-lg h-55 w-55">
+        <h2>Hollow Knight: Silksong</h2>
+        <p>$6.99</p>
+        <span>Plataforma:</span>
+        <select name="plataforma" class="plataforma">
+          <option value="ps5">PS5</option>
+          <option value="xbox">XBOX</option>
+          <option value="pc">PC</option>
+        </select>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-center p-3 text-3xl">EXCLUSIVOS PS5</h2>
+    <div class="flex-wrap flex justify-center gap-4 p-4">
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1624750215-ratchet-clank-una-dimension-aparte-ps5.webp" alt="" class="rounded-lg">
+        <h3>RATCHET & CLANK: UNA DIMENSIÓN APARTE</h3>
+        <p>$69.99</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1707352106-sand-land-ps5-pre-orden-0.webp" alt="" class="rounded-lg">
+        <h3>STELLAR BLADE</h3>
+        <p>$59.99</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1711123812-rise-of-the-ronin-ps5-0.webp" alt="" class="rounded-lg">
+        <h3>RISE OF THE RONIN</h3>
+        <p>$41.69</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1737672379-ghost-of-ytei-ps5-pre-orden-0.webp" alt="" class="rounded-lg">
+        <h3>GHOST OF YÖTEI</h3>
+        <p>$69.99</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1763155573-wolverine-ps5-pre-orden-0.webp" alt="" class="rounded-lg">
+        <h3>MARVEL'S WOLVERINE</h3>
+        <p>$69.99</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+      <article class="flex flex-col items-center gap-2 border-2 border-white/10 p-4 w-55 h-auto rounded-md">
+        <img src="./assets/exclusivos/1764374148-marvels-spider-man-2-ps5-0.webp" alt="" class="rounded-lg">
+        <h3>MARVEL'S SPIDER MAN 2</h3>
+        <p>$69.99</p>
+        <button class="añadirAlCarrito bg-orange-800 p-2 rounded">Añadir al carrito</button>
+      </article>
+    </div>
+  </section>
+
+  
+  <dialog id="cart-modal"
+    class="backdrop:bg-black/60 bg-zinc-900 text-white p-6 rounded-xl shadow-2xl min-w-[320px] max-w-md border border-white/10 open:animate-fade-in">
+    <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-2">
+      <h2 class="text-xl font-bold text-emerald-400">Tu Carrito</h2>
+      <button id="close-cart" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+    <div id="cart-items" class="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2">
+      <p class="text-gray-500 text-center py-4">El carrito está vacío</p>
+    </div>
+    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+      <span class="font-bold text-lg">Total:</span>
+      <span id="cart-total" class="text-xl font-bold text-emerald-400">$0.00</span>
+    </div>
+    <button id="checkout-btn"
+      class="mt-4 w-full bg-emerald-700 hover:bg-emerald-600 text-white py-2 rounded-lg font-semibold transition-colors">Finalizar
+      Compra</button>
+  </dialog>
+
+  <div id="toast"
+    class="fixed bottom-5 right-5 bg-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-24 opacity-0 transition-all duration-300 z-50 font-semibold">
+    Producto agregado al carrito
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+  <script src="main.js"></script>
 </body>
+
 </html>
