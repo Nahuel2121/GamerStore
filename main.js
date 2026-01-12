@@ -1,89 +1,130 @@
-// aca van los datos de los juego y plataformas
-const plataformas = ["PC", "PlayStation 5", "Xbox Series"];
-const juegos = [
+document.addEventListener("DOMContentLoaded", () => {
+  
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    { nombre: "Resident Evil Village", precio: 39.99 },
-    { nombre: "Resident Evil Requiem", precio: 52.99 },
-    { nombre: "FIFA 26", precio: 69.99 },
-    { nombre: "Call of Duty: Black Ops 7", precio: 59.99 },
-    { nombre: "Battlefield 6", precio: 69.99 },
-    { nombre: "Hollow Knight: Silksong", precio: 6.99 },
-];
+  const carritoIcono = document.querySelector("a.carrito");
 
-function comprarJuego() {
-    let nombre = prompt("Ingrese su nombre:");
-    if (!nombre) {
-        alert("No ingresaste un nombre. Saliendo del simulador.");
-        return;
+  const modal = document.getElementById("cart-modal");
+  const closeBtn = document.getElementById("close-cart");
+  const cartItemsContainer = document.getElementById("cart-items");
+  const cartTotalElement = document.getElementById("cart-total");
+  const toast = document.getElementById("toast");
+
+  function actualizarContador() {
+    if (carritoIcono) {
+      carritoIcono.textContent = `🛒 ${carrito.length}`;
     }
+  }
 
-    alert("Bienvenido " + nombre + " a la tienda GamerStore!");
+  actualizarContador();
 
-    // seleccion de la plataforma
-    let plataformasTexto = "";
-    for (let i = 0; i < plataformas.length; i++) {
-        plataformasTexto += `${i + 1}. ${plataformas[i]}\n`;
-    }
+  function mostrarNotificacion(mensaje) {
+    toast.textContent = mensaje;
+    toast.classList.remove("translate-y-24", "opacity-0");
+    setTimeout(() => {
+      toast.classList.add("translate-y-24", "opacity-0");
+    }, 3000);
+  }
 
-    let opcionPlataforma = prompt(
-        "Seleccione su plataforma:\n" + plataformasTexto
-    );
 
-    if (opcionPlataforma < 1 || opcionPlataforma > plataformas.length) {
-        alert("Opción no válida. Saliendo...");
-        return;
-    }
+  function agregarAlCarrito(e) {
+    const boton = e.target;
 
-    const plataformaElegida = plataformas[opcionPlataforma - 1];
-    alert("Elegiste " + plataformaElegida);
+    const card = boton.closest("article");
 
-    // un carrito para guardar las selecciones cuando finalice el proceso de compra
-    const carrito = [];
+    const titulo = card.querySelector("h2, h3").innerText;
+    const precioTexto = card.querySelector("p").innerText;
+    const precio = parseFloat(precioTexto.replace("$", "")) || 0;
 
-    let seguirComprando = true;
+    const selectPlataforma = card.querySelector("select");
+    const plataforma = selectPlataforma
+      ? selectPlataforma.value.toUpperCase()
+      : "PS5";
 
-    while (seguirComprando) {
-        let textoJuegos = "Seleccione un juego:\n";
-        for (let i = 0; i < juegos.length; i++) {
-            textoJuegos += `${i + 1}. ${juegos[i].nombre} - $${juegos[i].precio}\n`;
-        }
+    const producto = {
+      titulo: titulo,
+      precio: precio,
+      plataforma: plataforma,
+    };
 
-        let opcionJuego = prompt(textoJuegos);
+    carrito.push(producto);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarContador();
+    mostrarNotificacion(`¡${titulo} agregado!`);
+  }
 
-        if (opcionJuego < 1 || opcionJuego > juegos.length) {
-            alert("Opción no válida.");
-        } else {
-            const juegoSeleccionado = juegos[opcionJuego - 1];
+  function eliminarDelCarrito(index) {
+    carrito.splice(index, 1); 
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarContador();
+    renderizarCarrito(); 
+  }
 
-            carrito.push(juegoSeleccionado);
-
-            alert(
-                `Agregaste: ${juegoSeleccionado.nombre}\n` +
-                `Precio: $${juegoSeleccionado.precio} USD`
-            );
-        }
-
-        // confirm para seguir comprando
-        seguirComprando = confirm("¿Desea elegir otro juego?");
-    }
-
-    if (carrito.length === 0) {
-        alert("No seleccionaste ningún juego. ¡Hasta la próxima!");
-        return;
-    }
-
-    let resumen = "Resumen de compra:\n\n";
+  function renderizarCarrito() {
+    cartItemsContainer.innerHTML = "";
     let total = 0;
 
-    for (let i = 0; i < carrito.length; i++) {
-        resumen += `- ${carrito[i].nombre}: $${carrito[i].precio}\n`;
-        total += carrito[i].precio;
+    if (carrito.length === 0) {
+      cartItemsContainer.innerHTML =
+        '<p class="text-gray-500 text-center py-4">El carrito está vacío</p>';
+    } else {
+      carrito.forEach((item, index) => {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add(
+          "flex", "justify-between", "items-center", "bg-white/5", "p-2", "rounded"
+        );
+        itemElement.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="font-medium text-sm">${item.titulo}</span>
+                        <span class="text-xs text-gray-400">Plataforma: ${item.plataforma}</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-emerald-400">$${item.precio}</span>
+                        <button class="text-red-500 hover:text-red-400 font-bold text-xl leading-none btn-eliminar" data-index="${index}" title="Eliminar">&times;</button>
+                    </div>
+                `;
+        cartItemsContainer.appendChild(itemElement);
+        total += item.precio;
+      });
+
+      cartItemsContainer.querySelectorAll(".btn-eliminar").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const index = parseInt(
+            e.target.closest(".btn-eliminar").dataset.index
+          );
+          eliminarDelCarrito(index);
+        });
+      });
     }
 
-    resumen += `\nTOTAL: $${total.toFixed(2)} USD`;
+    cartTotalElement.textContent = `$${total.toFixed(2)}`;
+  }
 
-    alert(resumen);
-    alert("Gracias por su compra, " + nombre + "!");
-}
+  function mostrarCarrito(e) {
+    e.preventDefault();
+    renderizarCarrito();
+    modal.showModal();
+  }
 
-comprarJuego();
+  const botones = document.querySelectorAll(".añadirAlCarrito");
+  botones.forEach((btn) => btn.addEventListener("click", agregarAlCarrito));
+
+  const selectoresPlataforma = document.querySelectorAll(".plataforma");
+  selectoresPlataforma.forEach((select) => {
+    select.addEventListener("change", (e) => {
+      const plataforma = e.target.value; // ps5, xbox, pc
+      const card = e.target.closest("article");
+      const img = card.querySelector("img");
+
+      if (img) {
+        img.src = img.src.replace(/(ps5|xbox|pc)/gi, plataforma);
+      }
+    });
+  });
+
+  if (carritoIcono) {
+    carritoIcono.addEventListener("click", mostrarCarrito);
+  }
+
+  closeBtn.addEventListener("click", () => modal.close());
+});
